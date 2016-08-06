@@ -1,0 +1,6 @@
+- hosts: all
+- become: yes
+  user: fujitora
+  tasks:
+    - name: install git
+      yum: name=git state=installed
