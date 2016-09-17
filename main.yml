@@ -3,4 +3,60 @@
   become: yes
   tasks:
     - name: install git
-      action: yum pkg=git state=installed
+      yum: name=git state=present
+
+    - name: rpm install
+      yum: name={{item}} state=latest
+      with_items:
+        - gcc
+        - gcc-c++
+        - glibc-headers
+        - libffi-devel
+        - libyaml-devel
+        - mysql-devel
+        - openssl-devel
+        - readline
+        - readline-devel
+        - sqlite
+        - sqlite-devel
+        - zlib
+        - zlib-devel
+
+    - name: install nginx
+      yum: name=nginx
+
+    - name: install mysql
+      yum: name=mysql-server
+
+    - name: mysql start
+      shell: /etc/rc.d/init.d/mysqld start
+
+    - name: mysql auto start
+      shell: chkconfig mysqld on
+
+    # ここまで ok
+
+
+    # - name: install rbenv
+    #   git: repo=https://github.com/sstephenson/rbenv.git dest=~/.rbenv
+
+    # - name: install ruby-build
+    #   git: repo=https://github.com/sstephenson/ruby-build.git dest=/root/.rbenv/plugins/ruby-build
+
+    # - name: set environment variable
+    #   shell: '{{item.cmd}}'
+    #   with_items:
+    #     - cmd: "pwd"
+    #     - cmd: echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+    #     - cmd: echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+    #     - cmd: source ~/.bash_profile
+
+
+    # - name: install ruby
+    #   shell: '{{ item.cmd }}'
+    #   with_items:
+    #     - cmd: rbenv install 2.1.1
+    #     - cmd: rbenv rehash
+
+
+    # - name: install rails
